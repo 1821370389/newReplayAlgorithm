@@ -32,7 +32,7 @@ int printArray(int array[], int size)
 /* 选择排序*/
 int selectionSort(int array[], int size)
 {
-    int temp;
+    int temp; //用于记录最小值的位置
     for(int idx = 0; idx < ARRAYSIZE; idx++)
     {
         temp = idx;
@@ -43,22 +43,27 @@ int selectionSort(int array[], int size)
                 temp = jdx;
             }
         }
-        swap(&array[idx], &array[temp]);
+        if(temp != idx)
+        {
+            swap(&array[idx], &array[temp]);
+        }
     }
     return SUCCESS;
 }
 /* 插入排序 */
 int insertionSort(int array[], int size)
 {
+    int jdx;
     for(int idx = 1; idx < size; idx++)
     {   
         int temp = array[idx];
-        int jdx = idx - 1;
+        jdx = idx - 1;
         while(jdx >= 0 && array[jdx] > temp)
         {
             array[jdx-- + 1] = array[jdx];
         }
         array[jdx + 1] = temp;
+        printArray(array, size);
     }
 }
 
@@ -85,6 +90,51 @@ int shellSort(int array[], int size)
     return SUCCESS;
 }
 
+/* 快速排序 */
+int quickSort(int array[], int start, int end)
+{
+    if(start >= end)
+    {
+        return SUCCESS;
+    }
+    /* 取array[start]为基准值，此处无用了，成为一个坑 */
+    int referenceValue = array[start];
+    int left = start, right = end;
+    if(start < end)
+    {
+        while(left < right)
+        {
+            /* 找到右边第一个小于referenceValue的值 */
+            while(left < right && array[right] >= referenceValue)
+            {
+                right--;
+            }
+            if(left < right)
+            {
+                /* 用array[right]填array[left](第一次时即array[start])的坑，同时在array[right]形成一个坑*/
+                array[left++] = array[right];
+            }
+            /* 找到左边第一个大于referenceValue的值 */
+            while(left < right && array[left] <= referenceValue)
+            {
+                left++;
+            }
+            if(left < right)
+            {
+                /* 用array[left]填array[right](即array[end])的坑，同时在array[left]形成一个坑*/
+                array[right--] = array[left];
+            }
+        }
+        /* 用referenceValue填最后的array[left]的坑 */
+        array[left] = referenceValue;
+    }
+    /* 递归基准左边 */
+    quickSort(array, start, left - 1);
+    /* 递归急转右边 */
+    quickSort(array, left + 1, end);
+
+}
+
 int main()
 {
     int array[ARRAYSIZE] = {0};
@@ -102,12 +152,15 @@ int main()
 #if 0
     /* 选择排序 */
     selectionSort(array, ARRAYSIZE);
-#elif 1
+#elif 0
     /* 插入排序 */
     insertionSort(array, ARRAYSIZE);
-#elif 1
+#elif 0
     /* 希尔排序 */
     shellSort(array, ARRAYSIZE);
+#elif 1
+    /* 快速排序 */
+    quickSort(array,0,ARRAYSIZE-1);    
 #endif
 
     /* 打印数组 */

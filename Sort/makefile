@@ -1,13 +1,13 @@
 #自定义变量
-OBJ = bubbleSort.o
-TARGET = bubbleSort
+OBJ = selectionSort.o
+TARGET = selectionSort
 
 #使用变量:$(变量名)
 $(TARGET): $(OBJ)
 	gcc $^ -o $@
 
 
-add.o: bubbleSort.c
+add.o: selectionSort.c
 	gcc -c $^ -o $@
 
 clean:
