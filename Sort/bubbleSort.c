@@ -24,23 +24,29 @@ int printArray(int *array, int size)
     return SUCCESS;
 }
 /* 冒泡排序 */
-int bubbleSort(int array[], int size)
+int bubbleSort(int *array, int size)
 {
-    for(int idx = size; idx > 0; idx--)
+    int count = 0;
+    for(int idx = size; idx > 1; idx--)
     {
+        count = 1;
         for(int jdx = 1; jdx < idx; jdx++)
         {
             if(array[jdx] < array[jdx - 1])
             {
                 swap(&array[jdx], &array[jdx - 1]);
+                count = jdx + 1;
             }
         }
+        idx = count;
+        printf("第%d次排序:\n", idx);
+        printArray(array, size);
     }
 }
 
 int main()
 {
-    int array[BUFFER_SIZE] = {0};
+    int array[BUFFER_SIZE] = {0};//{1,2,3,5,6,7,8,9,10,11};
 
     /* 随机数组 */
     srand(time(NULL));
