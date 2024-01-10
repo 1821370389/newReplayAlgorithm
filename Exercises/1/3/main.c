@@ -187,5 +187,10 @@ int main()
     DoubleLinkListTraverse(list3, printInt);
     printf("\n");   
 
+    /* 释放内存 */
+    free(arr);
+    DoubleLinkListDestroy(&list);
+    DoubleLinkListDestroy(&list2);
+    DoubleLinkListDestroy(&list3);
     return 0;
 }
